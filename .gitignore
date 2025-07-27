@@ -52,3 +52,7 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+VocabularyAI/.vs/*
+launchSettings.json
+*.user
