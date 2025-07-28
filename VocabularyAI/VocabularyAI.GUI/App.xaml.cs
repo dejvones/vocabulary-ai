@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using VocabularyAI.GUI.Services;
 using VocabularyAI.GUI.ViewModels;
 using VocabularyAI.Services;
 
@@ -18,15 +19,23 @@ public partial class App : Application
 
         ServiceProvider = services.BuildServiceProvider();
 
-        var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        var mainWindow = new MainWindow
+        {
+            DataContext = ServiceProvider.GetRequiredService<MainViewModel>()
+        };
         mainWindow.Show();
     }
 
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.AddSingleton<NavigationService>();
+
+        services.AddSingleton<MainViewModel>();
+        services.AddSingleton<MenuViewModel>();
+        services.AddSingleton<WordsViewModel>();
+        services.AddSingleton<HistoryViewModel>();
+
         services.AddSingleton<IOpenAIService, OpenAIService>();
         services.AddSingleton<IWordsService, WordsService>();
-        services.AddSingleton<MainWindow>();
-        services.AddSingleton<MainWindowViewModel>();
     }
 }

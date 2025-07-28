@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Style for the main button -->
+    <Style x:Key="MainButton" TargetType="Button">
+        <Setter Property="Background" Value="#2196F3"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Padding" Value="14,8"/>
+        <Setter Property="Margin" Value="0,6"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="MinHeight" Value="44"/>
+        <Setter Property="MaxHeight" Value="56"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="6" ShadowDepth="1" Opacity="0.18"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                    Background="{TemplateBinding Background}" 
+                    CornerRadius="18"
+                    SnapsToDevicePixels="True">
+                        <ContentPresenter 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        RecognizesAccessKey="True"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Style for the main button red -->
+    <Style x:Key="MainButtonRed" TargetType="Button" BasedOn="{StaticResource MainButton}">
+        <Setter Property="Background" Value="#E91E63"/>
+    </Style>
+    <!-- Style for the Generate Words button -->
+    <Style x:Key="GenerateButtonStyle" TargetType="Button" BasedOn="{StaticResource MainButton}">
+        <Setter Property="Background" Value="#43A047"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Padding" Value="28,12"/>
+        <Setter Property="MinWidth" Value="220"/>
+        <Setter Property="Margin" Value="0,0,24,0"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.22"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                    Background="{TemplateBinding Background}" 
+                    CornerRadius="28"
+                    SnapsToDevicePixels="True">
+                        <ContentPresenter 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        RecognizesAccessKey="True"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Style for the score badge -->
+    <Style x:Key="ScoreBadgeStyle" TargetType="Border">
+        <Setter Property="Background" Value="#FFF3CD"/>
+        <Setter Property="BorderBrush" Value="#FFECB3"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="16"/>
+        <Setter Property="Padding" Value="22,8"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+</ResourceDictionary>

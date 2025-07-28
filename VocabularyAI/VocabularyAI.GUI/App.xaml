@@ -1,8 +1,23 @@
 ﻿<Application x:Class="VocabularyAI.GUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:VocabularyAI.GUI">
+             xmlns:local="clr-namespace:VocabularyAI.GUI"
+             xmlns:vm="clr-namespace:VocabularyAI.GUI.ViewModels" 
+             xmlns:views="clr-namespace:VocabularyAI.GUI.Views">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views/Styles/GlobalStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type vm:MenuViewModel}">
+                <views:MenuView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:WordsViewModel}">
+                <views:WordsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:HistoryViewModel}">
+                <views:HistoryView/>
+            </DataTemplate>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

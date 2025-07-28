@@ -4,13 +4,15 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 using VocabularyAI.GUI.Models;
+using VocabularyAI.GUI.Services;
 using VocabularyAI.Services;
 
 namespace VocabularyAI.GUI.ViewModels;
 
-public partial class MainWindowViewModel : ObservableObject
+public partial class WordsViewModel : ObservableObject
 {
     private readonly IWordsService _wordsService;
+    private readonly NavigationService _navigationService;
 
     private string _czechSelected = string.Empty;
     private string _englishSelected = string.Empty;
@@ -33,11 +35,11 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private Visibility _showLoading = Visibility.Hidden;
     [ObservableProperty]
-    private Brush _lastResultBrush = Brushes.Gray;
+    private Brush _lastResultBrush = new SolidColorBrush(Color.FromRgb(33, 150, 243));
     [ObservableProperty]
-    private string _status = "Correct: waiting...";
+    private string _status = "Správný počet: čekám...";
     [ObservableProperty]
-    private string _lastResultMessage = "Welcome!";
+    private string _lastResultMessage = "Vítej!";
     [ObservableProperty]
     private string _lastResultIcon = "ℹ️";
     [ObservableProperty]
@@ -45,9 +47,10 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<WordModel> _englishs = [];
 
-    public MainWindowViewModel(IWordsService wordsService)
+    public WordsViewModel(IWordsService wordsService, NavigationService navigationService)
     {
         _wordsService = wordsService;
+        _navigationService = navigationService;
         _selectedLevel = Levels.First();
     }
 
@@ -103,12 +106,18 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    public void NavigateToMenu()
+    {
+        _navigationService.Navigate<MenuViewModel>();
+    }
+
     private void CompareSelection(string czech, string english)
     {
         _all++;
         var isCorrect = _wordsService.IsCorrect(czech, english);
         LastResultBrush = isCorrect ? Brushes.LimeGreen : Brushes.OrangeRed;
-        LastResultMessage = isCorrect ? "Correct!" : "Incorrect!";
+        LastResultMessage = isCorrect ? "Gratuluji, správně!" : "Smůla, chyba!";
         LastResultIcon = isCorrect ? "✅" : "❌";
 
         if (isCorrect)
@@ -121,6 +130,6 @@ public partial class MainWindowViewModel : ObservableObject
         Englishs = new ObservableCollection<WordModel>(Englishs.Select(w => new WordModel(w.Value, false)));
         _czechSelected = string.Empty;
         _englishSelected = string.Empty;
-        Status = $"Correct: {_correct} / {_all}";
+        Status = $"Skóre: {_correct} správně / {_all} celkem";
     }
 }

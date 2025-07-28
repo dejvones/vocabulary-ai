@@ -17,9 +17,4 @@
     <ProjectReference Include="..\VocabularyAI.Services\VocabularyAI.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Convertors\" />
-    <Folder Include="Views\" />
-  </ItemGroup>
-
 </Project>

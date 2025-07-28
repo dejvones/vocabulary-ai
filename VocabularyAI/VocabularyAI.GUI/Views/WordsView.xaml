@@ -1,0 +1,169 @@
+﻿<UserControl x:Class="VocabularyAI.GUI.Views.WordsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VocabularyAI.GUI.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <!-- Top colored bar -->
+                <Border Height="8" VerticalAlignment="Top" Background="{Binding LastResultBrush}" CornerRadius="4,4,0,0" Margin="8,8,8,0"/>
+
+                <!-- Top message bar for last result -->
+                <Border Height="44" VerticalAlignment="Top" Margin="8,8,8,0"
+                    Background="{Binding LastResultBrush}" CornerRadius="10" Opacity="0.95">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding LastResultIcon}" FontSize="24" Margin="10,0,6,0" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding LastResultMessage}" FontSize="17" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Main controls -->
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Back Button -->
+                    <Button Grid.Column="0" Command="{Binding NavigateToMenuCommand}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Style="{StaticResource GenerateButtonStyle}"
+                             ToolTip="Back to Menu" Background="#2196F3">
+                        <TextBlock Text="◀️ Menu" Foreground="White"/>
+                    </Button>
+
+                    <!-- Score badge -->
+                    <Border Grid.Column="1" Style="{StaticResource ScoreBadgeStyle}" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
+                        <TextBlock Text="{Binding Status}" Foreground="#795548" FontWeight="Bold" FontSize="18" VerticalAlignment="Center" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <!-- Generate controls -->
+                <StackPanel Orientation="Horizontal" Margin="8" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <!-- Generate button -->
+                    <Button Command="{Binding GenerateWordsCommand}" Content="🔄 Generuj slova" Style="{StaticResource GenerateButtonStyle}"/>
+                    <!-- Level selection -->
+                    <ComboBox Style="{DynamicResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                          Margin="10,0,10,0"
+                        Width="140" 
+                        Height="44"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Padding="10,0"
+                        ItemsSource="{Binding Levels}"
+                        SelectedItem="{Binding SelectedLevel, Mode=TwoWay}"
+                        DisplayMemberPath="Name"
+                        VerticalAlignment="Center"
+                        />
+                    <!-- Topic input -->
+                    <Border Background="#FFF3E0" CornerRadius="14" Padding="10,0" VerticalAlignment="Center">
+                        <TextBox Width="280"
+                         Height="44"
+                         FontSize="18"
+                         FontWeight="Bold"
+                         Padding="0"
+                         Text="{Binding Topic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Left"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         Foreground="#E65100"
+                         />
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- Word selection area -->
+            <Grid Grid.Row="1" Margin="16,16,16,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <!-- Czech words -->
+                <Border Grid.Column="0" Margin="0,0,8,0" Background="#F5F7FA" CornerRadius="10" Padding="12">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Czechs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button 
+                        Command="{Binding DataContext.SelectCzechWordCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                        CommandParameter="{Binding Value}" 
+                        Content="{Binding Value}">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource MainButton}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="Background" Value="#1565C0"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                <!-- English words -->
+                <Border Grid.Column="1" Margin="8,0,0,0" Background="#F5F7FA" CornerRadius="10" Padding="12">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Englishs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button 
+                        Command="{Binding DataContext.SelectEnglishWordCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                        CommandParameter="{Binding Value}" 
+                        Content="{Binding Value}">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource MainButtonRed}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="Background" Value="#AD1457"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Loading overlay -->
+        <Grid Visibility="{Binding ShowLoading}"
+      Background="#80000000" 
+      Panel.ZIndex="100">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Background="White" CornerRadius="16" Padding="32,24" Opacity="0.95">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        <ProgressBar IsIndeterminate="True" Width="80" Height="18" Margin="0,0,16,0"/>
+                        <TextBlock Text="Načítám..." FontSize="18" FontWeight="Bold" Foreground="#333"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
